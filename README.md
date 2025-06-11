@@ -1,1 +1,1 @@
-# ya0diplom
+# ya-diplom
