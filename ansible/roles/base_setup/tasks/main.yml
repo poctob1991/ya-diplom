@@ -1,0 +1,33 @@
+---
+
+- name: Set hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Update apt cache
+  apt:
+    update_cache: yes  
+
+- name: Install common packages
+  apt:
+    name:
+      - curl
+      - wget
+      - gnupg
+      - software-properties-common
+      - unzip
+      - htop
+    state: present
+
+- name: Create backup directory
+  file:
+    path: "{{ backup_dir }}"
+    state: directory
+    mode: 0755
+    
+- name: Disable UFW (prevent auto-start)
+  ansible.builtin.service:
+    name: ufw
+    state: stopped
+    enabled: no    
+    

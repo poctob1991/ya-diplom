@@ -1,0 +1,26 @@
+---
+
+#- name: Configure all servers
+#  hosts: all
+#  become: yes
+#  roles:
+#    - base_setup
+#
+#- name: Configure PostgreSQL database
+#  hosts: db
+#  become: yes
+#  roles:
+#    - postgresql
+
+
+#- name: Install and configure mediawiki
+#  hosts: mediawiki
+#  become: yes
+#  roles:
+#    - mediawiki
+      
+- name: Install and configure balancer
+  hosts: proxy
+  become: yes
+  roles:
+    - nginx

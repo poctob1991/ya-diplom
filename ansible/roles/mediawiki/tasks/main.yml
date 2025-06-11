@@ -1,0 +1,57 @@
+---
+
+- name: Install Nginx and PHP
+  apt:
+    name: 
+      - nginx
+      - php
+      - php-gd
+      - php-cli
+      - php-fpm
+      - php-intl
+      - php-mbstring
+      - php-xml
+      - php-apcu
+      - php-curl
+      - php-pgsql
+      - postgresql-client
+    state: present
+    
+- name: Download MediaWiki
+  get_url:
+    url: https://releases.wikimedia.org/mediawiki/1.42/mediawiki-1.42.1.tar.gz
+    dest: /tmp/mediawiki.tar.gz
+    
+- name: Set permissions
+  file:
+    path: /var/www/mediawiki
+    state: directory
+    mode: 0755
+    owner: www-data
+    group: www-data
+    recurse: yes
+    
+- name: Extract MediaWiki
+  unarchive:
+    src: /tmp/mediawiki.tar.gz
+    dest: /var/www/mediawiki
+    remote_src: yes
+    extra_opts:
+      - "--strip-components=1"
+    
+- name: Configure Nginx for MediaWiki
+  template:
+    src: mediawiki.conf.j2
+    dest: /etc/nginx/sites-available/mediawiki
+  
+- name: Enable Nginx site
+  file:
+    src: /etc/nginx/sites-available/mediawiki
+    dest: /etc/nginx/sites-enabled/mediawiki
+    state: link
+  
+- name: Restart Nginx
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes  

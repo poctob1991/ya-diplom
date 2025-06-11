@@ -1,0 +1,14 @@
+---
+
+backup_dir: /opt/backups
+
+postgresql_replication_user: syncuser
+postgresql_replication_password: sync_pass
+
+postgresql_wiki_user: wikiuser
+postgresql_wiki_password: wikipass
+postgresql_wiki_db: my_wiki
+
+pg_data_dir: /var/lib/postgresql/14/main
+pg_hba_path: /etc/postgresql/14/main/pg_hba.conf
+pg_conf_path: /etc/postgresql/14/main/postgresql.conf
